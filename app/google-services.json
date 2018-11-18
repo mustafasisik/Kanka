@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "819982917280",
+    "firebase_url": "https://kanka-project.firebaseio.com",
+    "project_id": "kanka-project",
+    "storage_bucket": "kanka-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819982917280:android:50c2e0ff2e828387",
+        "android_client_info": {
+          "package_name": "com.turkcellgroup38.kanka"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819982917280-kjabdmbab3u24hdamhvk29r55pl1ledr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJ6AnYhYcLJfhUYOR-at3SxEpvkjg9Gc0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
