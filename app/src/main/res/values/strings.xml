@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Kanka</string>
     <string name="action_settings">Settings</string>
+    <string name="information">Bilgiler</string>
+    <string name="home_page">Anasayfa</string>
+    <string name="profile">Profil</string>
 </resources>

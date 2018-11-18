@@ -1,4 +1,4 @@
-package org.turkcellgroup38.kanka.fragments;
+package com.turkcellgroup38.kanka.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.turkcellgroup38.kanka.R;
+import com.turkcellgroup38.kanka.R;
 
 /**
  * A simple {@link Fragment} subclass.
