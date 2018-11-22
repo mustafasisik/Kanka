@@ -4,4 +4,6 @@
     <string name="information">Bilgiler</string>
     <string name="home_page">Anasayfa</string>
     <string name="profile">Profil</string>
+    <string name="action_logout">Çıkış Yap</string>
+    <string name="blood_demand">Kan Talebi</string>
 </resources>

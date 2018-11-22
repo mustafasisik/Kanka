@@ -1,7 +1,6 @@
 package com.turkcellgroup38.kanka.fragments;
 
 import android.content.Context;
-import android.net.MailTo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,7 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.turkcellgroup38.kanka.R;
-import com.turkcellgroup38.kanka.activities.MainActivity;
 import com.turkcellgroup38.kanka.adapters.AnnouncementAdapter;
 import com.turkcellgroup38.kanka.models.Announcement;
 
@@ -29,12 +27,12 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link HomeFragment.OnFragmentInteractionListener} interface
+ * {@link LoginFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
+ * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class LoginFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String BLOOD_TYPE = "bloodtype";
@@ -61,12 +59,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
 
-    public HomeFragment() {
+    public LoginFragment() {
         // Required empty public constructor
     }
 
-    public static HomeFragment newInstance(String bloodtype, String rh) {
-        HomeFragment fragment = new HomeFragment();
+    public static LoginFragment newInstance(String bloodtype, String rh) {
+        LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
         args.putString(BLOOD_TYPE, bloodtype);
         args.putString(RH, rh);
@@ -94,7 +92,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private void setView(View view) {
         recyclerView = view.findViewById(R.id.rvAnnouncements);
-        announcementAdapter = new AnnouncementAdapter(activity, announcements, HomeFragment.this);
+        announcementAdapter = new AnnouncementAdapter(activity, announcements, LoginFragment.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(announcementAdapter);
         Log.d("AAA", bloodtype);

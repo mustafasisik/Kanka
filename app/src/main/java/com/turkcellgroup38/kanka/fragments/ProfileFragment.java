@@ -3,13 +3,29 @@ package com.turkcellgroup38.kanka.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.turkcellgroup38.kanka.R;
+import com.turkcellgroup38.kanka.activities.MainActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,15 +36,10 @@ import com.turkcellgroup38.kanka.R;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private EditText etName, etPhone, etBloodType, etRh, etAge, etEmail, etLocation;
+    private ImageView ivProfile, ivBanner;
+    private Button buttonUpdate;
     private AppCompatActivity activity;
     @Override
     public void onAttach(Context context) {
@@ -42,38 +53,102 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static ProfileFragment newInstance() {
+        return new ProfileFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        setView(view);
+        return view;
+    }
+
+    private void setView(View view) {
+        MainActivity.progressBar.setVisibility(View.VISIBLE);
+        etName = view.findViewById(R.id.etName);
+        etPhone = view.findViewById(R.id.etPhone);
+        etBloodType = view.findViewById(R.id.etBloodType);
+        etRh = view.findViewById(R.id.etRh);
+        etAge = view.findViewById(R.id.etAge);
+        etEmail = view.findViewById(R.id.etEmail);
+        etLocation = view.findViewById(R.id.etLocation);
+
+        ivProfile = view.findViewById(R.id.ivProfile);
+        ivBanner = view.findViewById(R.id.ivbanner);
+
+
+        buttonUpdate = view.findViewById(R.id.buttonUpdate);
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Map<String, Object> map = new HashMap<>();
+                String name = etName.getText().toString().trim();
+                String phone = etPhone.getText().toString().trim();
+                String blood = etBloodType.getText().toString().trim();
+                String rh = etRh.getText().toString().trim();
+                String age = etAge.getText().toString().trim();
+                String email = etEmail.getText().toString().trim();
+                String location = etLocation.getText().toString().trim();
+                map.put("name", name);
+                map.put("phone", phone);
+                map.put("blood", blood);
+                map.put("rh", rh);
+                map.put("age", age);
+                map.put("email", email);
+                map.put("location", location);
+
+
+                FirebaseDatabase.getInstance().getReference().child("users").child(MainActivity.userid).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(activity, "Başarılı Şekilde Güncellendi.", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(activity, "Lütfen yeniden deneyin!", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+            }
+        });
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(MainActivity.userid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String name = String.valueOf(dataSnapshot.child("name").getValue());
+                String age = String.valueOf(dataSnapshot.child("age").getValue());
+                String blood = String.valueOf(dataSnapshot.child("blood").getValue());
+                String rh = String.valueOf(dataSnapshot.child("rh").getValue());
+                String phone = String.valueOf(dataSnapshot.child("phone").getValue());
+                String email = String.valueOf(dataSnapshot.child("email").getValue());
+                String location = String.valueOf(dataSnapshot.child("location").getValue());
+                String image = String.valueOf(dataSnapshot.child("image").getValue());
+
+                etName.setText(name);
+                etAge.setText(age);
+                etPhone.setText(phone);
+                etRh.setText(rh);
+                etBloodType.setText(blood);
+                etEmail.setText(email);
+                etLocation.setText(location);
+                Glide.with(activity).load(image).into(ivProfile);
+                MainActivity.progressBar.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
